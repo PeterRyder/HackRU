@@ -1,0 +1,27 @@
+//Give user the option to temporarily ignore or permanently ignore the file (Mess with save or Ignore or something like that)
+//Save currently just temporarily ignores the file for this pass through
+
+File Deletion Program
+
+Simple and Advanced Interface
+
+Advanced Interface: 
+
+Prompt user for Directory, Older than date or/and greater than filesize
+Explore Directory
+Check each file that fits criteria
+List Files in GUI (File name, type, (last modified ||/&& type depending on criteria), radio buttons for what to do: delete, explore, save...etc)
+If sub-directory
+	Prompt: Delete || Explore || Save || Move [Suggestion based on contained file types (Optional)] || (Additional) Ignore 
+If file:
+	Prompt: Delete || Save || Move [Suggestion based on file type (Optional)] || (Additional) Ignore 
+	
+If any files are to be deleted:
+	Create Sub-dir "Deleted Files (Name of project)
+
+
+	
+	
+At confirmation of deletion at end of checks, send to recycle bin
+
+	

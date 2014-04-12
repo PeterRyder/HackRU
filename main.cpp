@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <fstream>
 #include <vector>
-using namespace std;
+
+using namespace System;
+using namespace System::IO;
 
 int main() {
 

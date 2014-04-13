@@ -23,5 +23,5 @@ class logging():
 		else:
 			ign = open(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\ignore.txt"), "w")
 		for i in self.files:
-			ign.write(self.files + "\n")
+			ign.write(i + "\n")
 		ign.close()

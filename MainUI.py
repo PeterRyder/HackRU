@@ -31,9 +31,9 @@ class Application(Frame):
     def choose_folder(self):
         Tk().withdraw()
         foldername = askdirectory()
-        file_age = self.get_textbox_input() 
+        self.file_age = self.get_textbox_input() 
         
-        print "Removing files in directory " + str(foldername) + " which are older than " + str(file_age) + " " + str(self.time_select.get()) + "\n" + "Ignoring " + str(self.ignore_list.get())
+        print "Removing files in directory " + str(foldername) + " which are older than " + str(self.file_age) + " " + str(self.time_select.get()) + "\n" + "Ignoring " + str(self.ignore_list.get()) + " Size " + str(self.size_list.get())
     
         
         self.createWindow(foldername)
@@ -96,6 +96,24 @@ class Application(Frame):
         self.ignore_ext = Entry(self, textvariable=self.ignore_list)
         self.ignore_ext.grid(row=2,column=2,sticky=W)
         
+        self.size_label = Label(self,
+                                text="File Size"
+                                )
+        self.size_label.grid(row=3,column=1)
+        
+        self.size_select = StringVar()
+        self.size_ext1 = ttk.Combobox(self,
+                                      textvariable = self.size_select,
+                                      state="readonly"
+                                      )
+        self.size_ext1["values"] = ("Kbs", "Mbs", "Gbs", "Tbs")
+        self.size_ext1.current(0)
+        self.size_ext1.grid(row=3,column=2,stick=W)
+        
+        self.size_list = StringVar()
+        self.size_ext = Entry(self, textvariable=self.size_list)
+        self.size_ext.grid(row=4,column=2,sticky=W)
+        
         menubar = Menu(Root)
         
         filemenu = Menu(menubar)
@@ -111,11 +129,37 @@ class Application(Frame):
         
     def select_all(self):
         print "This button in progress"
-    
+        
+    def confirm(self):
+        count = 0
+        for i in self.checkboxes.keys():
+            #print self.checkboxes[i].get()
+            if self.checkboxes[i].get() == "0":
+                #print self.inputData.deleteFiles[count]
+                #print self.inputData.deleteFiles[count][3]
+                var = []
+                var = list(self.inputData.deleteFiles)
+                
+                var1 = list(var[count])
+                var1[3] = False
+                var1 = tuple(var1)
+                var[count] = var1
+                var=set(var)
+                
+                self.inputData.deleteFiles = var
+                
+            count += 1
+                
+        for i in self.inputData.deleteFiles:
+            print i
+        
+        self.top.destroy()
+        
+        
     def createWindow(self, foldername):
-        top = Toplevel()
-        top.title("Output")
-        top.geometry("800x600")
+        self.top = Toplevel()
+        self.top.title("Output")
+        self.top.geometry("800x600")
         
         #top.checkAll = Button(top,
                               #text="Check All",
@@ -125,44 +169,79 @@ class Application(Frame):
         
         
         
-        top.vsb = Scrollbar(top, orient="vertical")
-        top.text = Text(top, width=40, height=20, 
-                            yscrollcommand=top.vsb.set)
-        top.vsb.config(command=top.text.yview)
-        top.vsb.pack(side="right", fill="y")
-        top.text.pack(side="left", fill="both", expand=True)
+        self.top.vsb = Scrollbar(self.top, orient="vertical")
+        self.top.text = Text(self.top, width=40, height=20, 
+                            yscrollcommand=self.top.vsb.set,bg="white")
+        self.top.vsb.config(command=self.top.text.yview,bg="white")
+        self.top.vsb.pack(side="right", fill="y")
+        self.top.text.pack(side="left", fill="both", expand=True)
         
         
-  
-        inputData = Files(foldername,1,1,1,250,2)
-        inputData.traverse()
+        #filepath, number, months, days, size, size option, ignore
+        
+        day_amount = 0
+        if (self.time_select.get() == "Days"):
+            day_amount = 1
+        elif (self.time_select.get() == "Months"):
+            day_amount = 31
+        elif (self.time_select.get() == "Years"):
+            day_amount = 365
+            
+        if (self.size_ext1.get() == "Kbs"):
+            size_multiplier = 1
+        elif (self.size_ext1.get() == "Mbs"):
+            size_multiplier = 2
+        elif (self.size_ext1.get() == "Gbs"):
+            size_multiplier = 3
+        elif (self.size_ext1.get() == "Tbs"):
+            size_multiplier = 4
+        
+        
+        temp_string = self.ignore_list.get().split(',')
+        
+        print "Folder name: " + foldername
+        print "File age: " + self.file_age
+        print "Day amount: " + str(day_amount)
+        print "Size: " + self.size_list.get()
+        print "Multiplier: " + str(size_multiplier)
+        print "Ignore List: ", temp_string
+        
+        
+        
+        
+        self.inputData = Files(foldername, int(self.file_age), int(day_amount), int(self.size_list.get()), int(size_multiplier), temp_string)
+        
+        self.inputData.traverse()
         #inputData.printIt()
         
+        self.checkboxes = {}
+        
         i = 1
-        for item in inputData.deleteFiles:
+        for item in self.inputData.deleteFiles:
             #print item
-            
-            cb = Checkbutton(top)
+            var = StringVar()
+            cb = Checkbutton(self.top, variable=var)
             cb.select()
-            top.text.window_create("end", window=cb)
+            self.top.text.window_create("end", window=cb)
+            self.checkboxes[cb] = var
             
             
-            txt = Label(top,
+            txt = Label(self.top,
                         text=item[1]
                         )
-            top.text.window_create("end", window=txt)
+            self.top.text.window_create("end", window=txt)
             
-            top.text.insert("end", "\n")
+            self.top.text.insert("end", "\n")
             
             i = i+1
             
-
-        
+        confirmSelection = Button(self.top, text="OK", command=self.confirm)
+        self.top.text.window_create("end", window=confirmSelection)
                
 if __name__ == '__main__':
     
     Root = Tk()
-    Root.geometry("300x80")
+    Root.geometry("300x120")
     Root.title("HackRU - EZ Cleaner")
     #Root.resizable(width=FALSE, height=FALSE)
     Root.config(bg="white")

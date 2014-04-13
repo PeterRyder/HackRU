@@ -251,12 +251,12 @@ class Application(Frame):
             temp_string = self.ignore_list.get().split(',')
         
         
-        print "Folder name: " + foldername
-        print "File age: " + self.file_age
-        print "Day amount: " + str(day_amount)
-        print "Size: " + self.size_list.get()
-        print "Multiplier: " + str(size_multiplier)
-        print "Ignore List: ", temp_string
+        #print "Folder name: " + foldername
+        #print "File age: " + self.file_age
+        #print "Day amount: " + str(day_amount)
+        #print "Size: " + self.size_list.get()
+        #print "Multiplier: " + str(size_multiplier)
+        #print "Ignore List: ", temp_string
         
         self.inputData = Files(foldername, int(self.file_age), int(day_amount), int(self.size_list.get()), int(size_multiplier), temp_string)
         

@@ -28,9 +28,9 @@ class Files():
 		    #####################################################################
 		    #     Checks for older and large files in a given directory tree    #
 		    #####################################################################    
-		        if time.time() - self.length > os.path.getmtime(root + "\\" + name):
+		        if self.length > 0 && time.time() - self.length > os.path.getmtime(root + "\\" + name):
 		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-		        if os.path.getsize(root+"\\"+name)/self.largest > 0:
+		        if self.largest > 0 && os.path.getsize(root+"\\"+name)/self.largest > 0:
 		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #   		  Checks for empty folders in the directory             #
@@ -43,15 +43,15 @@ class Files():
 	def delete_checked(self):
 		if len(self.deleteFiles): 
 			#Creates a log file to write the deleted files and directories to
-			log = open(os.path.join(path, "Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
+			log = open(os.path.join(self.path, "Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
 			#Check if all values are being deleted from a directory, if so, delete that instead
-			checkEmpty(log)
+			self.checkEmpty(log)
 			#For each file to be deleted, write the file into the log and send the file to the recycling bin
 			for file_name in self.deleteFiles:
 				#If the file is listed for deletion (4th value of tuple is True)
-				if file_name[3]:
+				if file_name[3] == True:
 					#Write the file to the log file and delete it
-					log.write(file_name[1] + " file deleted from directory" + file_name[1])
+					log.write(file_name[1] + " file deleted from directory " + file_name[0] + "\n")
 					send2trash(file_name[0])
 			#Close the file 
 			log.close()
@@ -74,7 +74,7 @@ class Files():
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)):
-				log_file.write(root + " directory deleted")
+				log_file.write(root + " directory deleted\n")
 				send2trash(root)
 
 	#Early stage function designed to recommend a directory that the file should be used should the user prompt not to delete it 

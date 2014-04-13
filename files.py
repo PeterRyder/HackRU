@@ -5,14 +5,13 @@ from send2trash import send2trash
 
 class Files():
 
-	def __init__(self,p="C:",n=1,m=1,d=1,s=1,o=1,ig=set([])):
+	def __init__(self,p="C:",n=1,d=1,s=1,o=1,ig=set([])):
 		self.path = p
 		self.num = n
-		self.months = m
 		self.days = d
 		self.size = s
 		self.option = o
-		self.length = self.num*self.months*self.days*3600
+		self.length = self.num*self.days*3600
 		self.largest = self.size*(1024**self.option)
 		self.ignore = ig
 		self.deleteFiles = set([])

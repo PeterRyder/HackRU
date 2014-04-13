@@ -2,6 +2,7 @@ import os
 import os.path
 import time
 from send2trash import send2trash
+from logging import *
 
 class Files():
 
@@ -40,21 +41,23 @@ class Files():
 		            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
 	
 	#Goes through the files after they've been selected for deleting 
-	def delete_checked(self):
+	def delete_checked(self,log=True):
 		if len(self.deleteFiles): 
-			#Creates a log file to write the deleted files and directories to
-			log = open(os.path.join(self.path, "Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
+			logVals = []
 			#Check if all values are being deleted from a directory, if so, delete that instead
-			self.checkEmpty(log)
+			self.checkEmpty(logVals)
 			#For each file to be deleted, write the file into the log and send the file to the recycling bin
 			for file_name in self.deleteFiles:
 				#If the file is listed for deletion (4th value of tuple is True)
 				if file_name[3] == True:
 					#Write the file to the log file and delete it
-					log.write(file_name[1] + " file deleted from directory " + file_name[0] + "\n")
+					logVals.add(file_name)
 					send2trash(file_name[0])
 			#Close the file 
-			log.close()
+			if log == True:
+				myLog = logging(logVals)
+				myLog.log()
+
 
 	#Function to print 
 	def printIt(self):
@@ -74,7 +77,7 @@ class Files():
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)) and (not (( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False) in self.deleteFiles)):
-				log_file.write(root + " directory deleted\n")
+				log_file.add(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
 				send2trash(root)
 
 	#Early stage function designed to recommend a directory that the file should be used should the user prompt not to delete it 

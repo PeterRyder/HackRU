@@ -139,9 +139,6 @@ class Application(Frame):
         Root.config(menu=menubar)
         Root.config(bg="white")
         
-    def select_all(self):
-        print "This button in progress"
-        
     def confirm(self):
         entireStructure = []
         entireStructure = list(self.inputData.deleteFiles)        
@@ -163,11 +160,24 @@ class Application(Frame):
                 entireStructure[count] = item
             count += 1
         
+        outputIgnoreList = []
+        count = 0
+        for i in self.ignore_checkboxes:
+            if i.get() == 1:
+                item = list(entireStructure[count])
+                path = item[0]
+                #print path
+                outputIgnoreList.append(path)
+                
+            count += 1
+        
+        log = logging(outputIgnoreList)
+        log.ignore()
         
         entireStructure=set(entireStructure)
         self.inputData.deleteFiles = entireStructure
         
-        print self.log_option.get()
+        #print self.log_option.get()
         log = False
         if (self.log_option.get() == 1):
             log = True
@@ -176,7 +186,7 @@ class Application(Frame):
             
         print(self.show_log_folder.get())
         if (self.show_log_folder.get() == 1):
-            print("test")
+            #print("test")
             path = os.path.expanduser("~")
             path = path + "\\AppData\\Roaming\\Reinigen\\Logs"
             #print path
@@ -231,15 +241,17 @@ class Application(Frame):
         elif (self.size_ext1.get() == "Tbs"):
             size_multiplier = 4
         
+        temp_string = []
+        if self.ignore_list.get() != '':
+            temp_string = self.ignore_list.get().split(',')
         
-        temp_string = self.ignore_list.get().split(',')
         
-        #print "Folder name: " + foldername
-        #print "File age: " + self.file_age
-        #print "Day amount: " + str(day_amount)
-        #print "Size: " + self.size_list.get()
-        #print "Multiplier: " + str(size_multiplier)
-        #print "Ignore List: ", temp_string
+        print "Folder name: " + foldername
+        print "File age: " + self.file_age
+        print "Day amount: " + str(day_amount)
+        print "Size: " + self.size_list.get()
+        print "Multiplier: " + str(size_multiplier)
+        print "Ignore List: ", temp_string
         
         self.inputData = Files(foldername, int(self.file_age), int(day_amount), int(self.size_list.get()), int(size_multiplier), temp_string)
         
@@ -259,25 +271,37 @@ class Application(Frame):
         self.top.text.window_create("1.0", window=deselectAll)
         
         self.checkboxes = []
+        self.ignore_checkboxes = []
         
         i = 1
         for item in self.inputData.deleteFiles:
             #print item
+
+        
+            txt = Label(self.top,
+                        text=item[1]
+                        )
+            
+            
+            self.top.text.insert("end", "\n")
+            
+            self.top.text.window_create("end", window=txt)
+            
             var = StringVar()
             cb = Checkbutton(self.top, variable=var)
             cb.select()
             self.top.text.window_create("end", window=cb)
-            self.checkboxes.append(var)
+            self.checkboxes.append(var)            
             
-            
-            txt = Label(self.top,
-                        text=item[1]
-                        )
-            self.top.text.window_create("end", window=txt)
-            
-            self.top.text.insert("end", "\n")
+            var1 = IntVar()
+            cb = Checkbutton(self.top, variable=var1)
+            cb.deselect()
+            self.top.text.window_create("end", window=cb)
+            self.ignore_checkboxes.append(var1)            
             
             i = i+1
+            
+        
             
         confirmSelection = Button(self.top, text="OK", command=self.confirm)
         self.top.text.window_create("1.0", window=confirmSelection)

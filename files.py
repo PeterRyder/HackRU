@@ -54,7 +54,7 @@ class Files():
 					logVals.add(file_name)
 					send2trash(file_name[0])
 			#Close the file 
-			if log == True:
+			if log == True and len(myLog) > 0:
 				myLog = logging(logVals)
 				myLog.log()
 

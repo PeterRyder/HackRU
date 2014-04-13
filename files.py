@@ -40,14 +40,13 @@ class Files():
 	
 	def delete_checked(self):
 		if len(self.deleteFiles): 
-			#print del_folder  #debug
 			#Creates a log file to write the deleted files and directories to
 			log = open(os.path.join(path, "Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
+			#For each file to be deleted, write the file into the log and send the file to the recycling bin
 			for file_name in self.deleteFiles:
 				log.write(file_name[1] + "deleted from directory" + file_name[0])
 				send2trash(file_name[0])
 			log.close()
-		#possibly call traverse again to check for now empty directories and then call delete_checked again
 
 	def printIt(self):
 		for i in self.deleteFiles:
@@ -62,8 +61,8 @@ class Files():
 					count+=1;
 				if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deletefiles:
 					count += 1            
-				if count == len(os.listdir(root+"\\"+directory)):
-					send2trash(root+"\\"+directory)
+			if count == len(os.listdir(root+"\\"+directory)):
+				send2trash(root+"\\"+directory)
 		
 	def suggest_move(name):
 		documents_ext = [".doc", ".docx", ".log", ".msg", ".odt", ".pages", ".rtf", ".tex", ".txt", ".wpd", ".wps", ".ppt", ".pptx", ".pps", ".xlr", ".xls", ".xlsx", ".pdf"]		

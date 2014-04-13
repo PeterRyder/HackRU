@@ -52,3 +52,25 @@ class Files():
 	def printIt(self):
 		for i in self.deleteFiles:
 			print i
+			
+	
+	def suggest_move(name):
+		documents_ext = [".doc", ".docx", ".log", ".msg", ".odt", ".pages", ".rtf", ".tex", ".txt", ".wpd", ".wps", ".ppt", ".pptx", ".pps", ".xlr", ".xls", ".xlsx", ".pdf"]		
+		musics_ext = [".aif", ".iff", ".m3u", ".m4a", ".mid", ".mp3", ".mpa", ".ra", ".wav", ".wma"]
+		pictures_ext = [".bmp", ".dds", ".gif", ".jpg", ".png", ".psd", ".pspimage", ".tga", ".thm", ".tif", ".tiff", ".yuv"]
+		videos_ext = [".3g2", ".3gp", ".asf", ".asx", ".avi", ".flv", ".m4v", ".mov", ".mp4", ".mpg", ".rm", ".srt", ".swf", ".vob", ".wmv"]
+		for ext in documents_ext:
+			if name.endswith(ext):
+				return "document"
+		for ext in musics_ext: 
+			if name.endswith(ext):
+				return "music"
+		for ext in pictures_ext:
+			if name.endswith(ext):
+				return "picture"
+		for ext in videos_ext:
+			if name.endswith(ext):
+				return "video"	
+		return "unknown"
+	
+	#def move_file(file_name, destination)

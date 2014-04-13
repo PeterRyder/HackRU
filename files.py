@@ -28,11 +28,17 @@ class Files():
 		    for name in files:
 		    #####################################################################
 		    #     Checks for older and large files in a given directory tree    #
-		    #####################################################################    
-		        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
-		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-		        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
-		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
+		    #####################################################################
+			    if len(self.ignore) > 0:
+			        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
+			            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+			        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
+			            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
+			    else:
+			    	if (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
+			            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+			        if (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
+			            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #   		  Checks for empty folders in the directory             #
 		    #####################################################################

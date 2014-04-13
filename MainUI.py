@@ -3,8 +3,10 @@ import sys
 import ttk
 from tkFileDialog import *
 from tkFileDialog import *
-
-from PIL import ImageTk,Image
+from files import *
+import os
+import time
+import os.path
 
 class Application(Frame):
     
@@ -20,7 +22,9 @@ class Application(Frame):
     def choose_file(self):
         Tk().withdraw()
         filename = askopenfilenames()       
-        print "Removing " + str(filename)
+        print "Removing " + str(filename) + "\n" "Ignoring " + str(self.ignore_list.get())
+        
+        
         
         self.createWindow()
 
@@ -29,9 +33,10 @@ class Application(Frame):
         foldername = askdirectory()
         file_age = self.get_textbox_input() 
         
-        print "Removing files in directory " + str(foldername) + " which are older than " + str(file_age) + " " + str(self.time_select.get())
+        print "Removing files in directory " + str(foldername) + " which are older than " + str(file_age) + " " + str(self.time_select.get()) + "\n" + "Ignoring " + str(self.ignore_list.get())
+    
         
-        self.createWindow()
+        self.createWindow(foldername)
         
     def createWidgets(self):
         self.QUIT = Button(self, 
@@ -82,6 +87,15 @@ class Application(Frame):
         self.time_box.grid(row=1,column=2,sticky=W)
         self.time_box.focus_set()
         
+        self.ignore_label = Label(self, 
+                                  text="Ignore List"
+                                  )
+        self.ignore_label.grid(row=2,column=1)
+        
+        self.ignore_list = StringVar()
+        self.ignore_ext = Entry(self, textvariable=self.ignore_list)
+        self.ignore_ext.grid(row=2,column=2,sticky=W)
+        
         menubar = Menu(Root)
         
         filemenu = Menu(menubar)
@@ -98,40 +112,51 @@ class Application(Frame):
     def select_all(self):
         print "This button in progress"
     
-    def createWindow(self):
+    def createWindow(self, foldername):
         top = Toplevel()
         top.title("Output")
         top.geometry("800x600")
         
-        top.checkAll = Button(top,
-                              text="Check All",
-                              command=self.select_all,
-                              )
-        top.checkAll.grid(row=0,column=0)
+        #top.checkAll = Button(top,
+                              #text="Check All",
+                              #command=self.select_all,
+                              #)
+        #top.checkAll.grid(row=0,column=0)
         
-        f = open("file", "r")
+        
+        
+        top.vsb = Scrollbar(top, orient="vertical")
+        top.text = Text(top, width=40, height=20, 
+                            yscrollcommand=top.vsb.set)
+        top.vsb.config(command=top.text.yview)
+        top.vsb.pack(side="right", fill="y")
+        top.text.pack(side="left", fill="both", expand=True)
+        
+        
+  
+        inputData = Files(foldername,1,1,1,250,2)
+        inputData.traverse()
+        #inputData.printIt()
         
         i = 1
-        for line in f:
-            print line
-            output = StringVar()
-            top.outputText = Entry(top,
-                                   textvariable=output,
-                                   state="readonly"
-                                   )
-            output.set(line)
-            top.outputText.grid(row=i,column=0)
+        for item in inputData.deleteFiles:
+            #print item
             
-            top.outputCheck = IntVar()
-            top.outputCheck = Checkbutton(top,
-                                           text="Remove",
-                                           variable=top.outputCheck
-                                           )
-            top.outputCheck.grid(row=i,column=1)
+            cb = Checkbutton(top)
+            cb.select()
+            top.text.window_create("end", window=cb)
+            
+            
+            txt = Label(top,
+                        text=item[1]
+                        )
+            top.text.window_create("end", window=txt)
+            
+            top.text.insert("end", "\n")
+            
             i = i+1
-           
-           
-        f.close()
+            
+
         
                
 if __name__ == '__main__':
@@ -139,7 +164,7 @@ if __name__ == '__main__':
     Root = Tk()
     Root.geometry("300x80")
     Root.title("HackRU - EZ Cleaner")
-    Root.resizable(width=FALSE, height=FALSE)
+    #Root.resizable(width=FALSE, height=FALSE)
     Root.config(bg="white")
     
     app = Application(master=Root)

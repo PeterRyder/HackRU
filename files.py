@@ -20,25 +20,32 @@ class Files():
 		#File types to be ignored
 		self.ignore = tuple(ig)
 		self.deleteFiles = set([])
-		
+	
+	
+
+
+
 	#Find all files and directories that can be deleted and add them to the set deleteFiles 
 	def traverse(self):
+		#Declare list of files and directories to ignore and removes ignore directories that no longer exist
+		ignore_paths = ignore_path_check()
 		#For each file and empty directory add it to a delete list
 		for root, dirs, files in os.walk(self.path):
 		    for name in files:
-		    #####################################################################
-		    #     Checks for older and large files in a given directory tree    #
-		    #####################################################################    
-		        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
-		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-		        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
-		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
-		    #####################################################################
-		    #   		  Checks for empty folders in the directory             #
-		    #####################################################################
-		    for directory in dirs:
-		        if os.listdir(root+"\\"+directory)==[]:
-		            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
+			    if root + "\\" + name not in ignore_paths:
+			    #####################################################################
+			    #     Checks for older and large files in a given directory tree    #
+			    #####################################################################
+			        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
+			            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+			        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
+			            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
+			    #####################################################################
+			    #   		  Checks for empty folders in the directory             #
+			    #####################################################################
+			    for directory in dirs:
+			        if os.listdir(root+"\\"+directory)==[]:
+			            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
 	
 	#Goes through the files after they've been selected for deleting 
 	def delete_checked(self,log=True):

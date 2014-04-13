@@ -18,7 +18,10 @@ class logging():
 	def ignore(self):
 		if not os.path.exists(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen")):
 			os.makedirs(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen"))
-		ign = open(os.path.join(os.path.expanduser("~") , "\\AppData\\Roaming\\Reinigen\\ignore.txt"), "a")
+		if os.path.isfile(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\ignore.txt")):
+			ign = open(os.path.join(os.path.expanduser("~") , "\\AppData\\Roaming\\Reinigen\\ignore.txt"), "a")
+		else:
+			ign = open(os.path.join(os.path.expanduser("~") , "\\AppData\\Roaming\\Reinigen\\ignore.txt"), "w")
 		for i in self.files:
-			ign.write(self.files + " , ")
+			ign.write(self.files + "\n")
 		ign.close()

@@ -77,7 +77,7 @@ class Files():
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)) and (not (( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False) in self.deleteFiles)):
-				log_file.add(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
+				log_file.append(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
 				send2trash(root)
 
 	#Early stage function designed to recommend a directory that the file should be used should the user prompt not to delete it 

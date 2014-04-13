@@ -20,10 +20,9 @@ class Files(self):
 		    #                                                                   #
 		    #####################################################################    
 		        if time.time() - length > os.path.getmtime(root + "\\" + name):
-		            #print name + "\t" , time.ctime(os.path.getmtime(root + "\\" + name))
-		            oldFiles.append((root+"\\"+name,name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+		            deleteFiles.add((root+"\\"+name,name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
 		        if os.path.getsize(root+"\\"+name)/largest > 0:
-		            largeFiles.append((root+"\\"+name,name, os.path.getsize(root+"\\"+name),True))
+		            deleteFiles.add((root+"\\"+name,name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #                                                                   #
 		    #    Checks for empty folders in the directory                      #
@@ -31,4 +30,4 @@ class Files(self):
 		    #####################################################################
 		    for directory in dirs:
 		        if os.listdir(root+"\\"+directory)==[]:
-		            emptyFolders.append( ( root+"\\"+directory, directory , True) )
+		            deleteFiles.add( ( root+"\\"+directory, directory , True) )

@@ -16,7 +16,6 @@ path = "C:\Users\loweyj\desktop"
 oldFiles = []
 largeFiles = []
 emptyFolders = []
-
 for root, dirs, files in os.walk(path):
     for name in files:
     #####################################################################
@@ -44,5 +43,5 @@ for root, dirs, files in os.walk(path):
     #print i
 #for i in largeFiles:
     #print i
-#for i in emptyFolders:
-    #print i
+for i in emptyFolders:
+    print i

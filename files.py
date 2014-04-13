@@ -6,7 +6,7 @@ from send2trash import send2trash
 class Files():
 
 	#Initializations 
-	def __init__(self,p="C:",n=1,d=1,s=1,o=1,ig=set([])):
+	def __init__(self,p="C:",n=1,d=1,s=1,o=1,ig=[]):
 		self.path = p
 		self.num = n
 		self.days = d
@@ -17,7 +17,7 @@ class Files():
 		#smallest file size to add
 		self.largest = self.size*(1024**self.option)
 		#File types to be ignored
-		self.ignore = []
+		self.ignore = tuple(ig)
 		self.deleteFiles = set([])
 		
 	#Find all files and directories that can be deleted and add them to the set deleteFiles 
@@ -73,7 +73,7 @@ class Files():
 				if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deleteFiles:
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
-			if count == len(os.listdir(root)):
+			if count == len(os.listdir(root)) and (not (( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False) in self.deleteFiles)):
 				log_file.write(root + " directory deleted\n")
 				send2trash(root)
 

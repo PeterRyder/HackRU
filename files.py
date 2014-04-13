@@ -14,7 +14,7 @@ class Files():
 		self.size = s
 		self.option = o
 		#youngest file to add to the delete list
-		self.length = self.num*self.days*3600
+		self.length = self.num*self.days*24*3600
 		#smallest file size to add
 		self.largest = self.size*(1024**self.option)
 		#File types to be ignored

@@ -1,6 +1,7 @@
 import os
 import os.path
 import time
+from send2trash import send2trash
 
 class Files():
 
@@ -52,3 +53,14 @@ class Files():
 	def printIt(self):
 		for i in self.deleteFiles:
 			print i
+
+	def checkEmpty(self):
+		for root, dirs, files in os.walk(self.path):
+			int count = 0;
+			for directory in dirs:
+		        if (root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True) in self.deletefiles:
+		        	count+=1;
+		        if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deletefiles:
+			        count += 1            
+			if count == len(os.listdir(root+"\\"+directory)):
+				send2trash(root+"\\"+directory)

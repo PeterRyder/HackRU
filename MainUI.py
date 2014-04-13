@@ -141,7 +141,24 @@ class Application(Frame):
         
     def confirm(self):
         entireStructure = []
-        entireStructure = list(self.inputData.deleteFiles)        
+        entireStructure = list(self.inputData.deleteFiles)    
+        
+        
+        outputIgnoreList = []
+        count = 0
+        for i in self.ignore_checkboxes:
+            if i.get() == 1:
+                item = list(entireStructure[count])
+                path = item[0]
+                #print path
+                outputIgnoreList.append(path)
+                
+            count += 1
+        
+        log = logging(outputIgnoreList)
+        log.ignore()        
+        
+        
         count = 0
         for i in self.checkboxes:
             #print self.checkboxes[i].get()
@@ -160,19 +177,7 @@ class Application(Frame):
                 entireStructure[count] = item
             count += 1
         
-        outputIgnoreList = []
-        count = 0
-        for i in self.ignore_checkboxes:
-            if i.get() == 1:
-                item = list(entireStructure[count])
-                path = item[0]
-                #print path
-                outputIgnoreList.append(path)
-                
-            count += 1
-        
-        log = logging(outputIgnoreList)
-        log.ignore()
+
         
         entireStructure=set(entireStructure)
         self.inputData.deleteFiles = entireStructure
@@ -288,13 +293,13 @@ class Application(Frame):
             self.top.text.window_create("end", window=txt)
             
             var = StringVar()
-            cb = Checkbutton(self.top, variable=var)
+            cb = Checkbutton(self.top, variable=var,text="Remove",anchor=E,justify=RIGHT)
             cb.select()
             self.top.text.window_create("end", window=cb)
             self.checkboxes.append(var)            
             
             var1 = IntVar()
-            cb = Checkbutton(self.top, variable=var1)
+            cb = Checkbutton(self.top, variable=var1,text="Ignore",anchor=E,justify=RIGHT)
             cb.deselect()
             self.top.text.window_create("end", window=cb)
             self.ignore_checkboxes.append(var1)            

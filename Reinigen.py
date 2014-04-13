@@ -220,7 +220,7 @@ class Application(Frame):
         self.top.vsb = Scrollbar(self.top, orient="vertical")
         self.top.text = Text(self.top, width=40, height=20, 
                             yscrollcommand=self.top.vsb.set,bg="white")
-        self.top.vsb.config(command=self.top.text.yview,bg="white")
+        self.top.vsb.config(command=self.top.text.yview,bg="white",state="disabled")
         self.top.vsb.pack(side="right", fill="y")
         self.top.text.pack(side="left", fill="both", expand=True)
         
@@ -249,6 +249,7 @@ class Application(Frame):
         temp_string = []
         if self.ignore_list.get() != '':
             temp_string = self.ignore_list.get().split(',')
+            temp_string = temp_string.strip(" ")
         
         
         #print "Folder name: " + foldername

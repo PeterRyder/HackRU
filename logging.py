@@ -8,7 +8,7 @@ class logging():
 		self.files = files
 
 	def log(self):
-		log = open(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs\\Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
+		log = open(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs\\ReinigenLog " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
 		for i in self.files:
 			log.write(self.files[1] + " deleted from directory " + self.files[0] + "\n")
 		log.close()

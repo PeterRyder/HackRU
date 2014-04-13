@@ -20,10 +20,6 @@ class Files():
 		#File types to be ignored
 		self.ignore = tuple(ig)
 		self.deleteFiles = set([])
-	
-	
-
-
 
 	#Find all files and directories that can be deleted and add them to the set deleteFiles 
 	def traverse(self):
@@ -32,21 +28,29 @@ class Files():
 		#For each file and empty directory add it to a delete list
 		for root, dirs, files in os.walk(self.path):
 		    for name in files:
-			    if root + "\\" + name not in ignore_paths:
-			    #####################################################################
-			    #     Checks for older and large files in a given directory tree    #
-			    #####################################################################
-			        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
-			            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-			        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
-			            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
-			    #####################################################################
-			    #   		  Checks for empty folders in the directory             #
-			    #####################################################################
-			    for directory in dirs:
-			        if os.listdir(root+"\\"+directory)==[]:
-			            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
-	
+				#If the file directory is not in the ignore list, check other criteria
+				if root + "\\" + name not in ignore_paths:
+				#####################################################################
+				#     Checks for older and large files in a given directory tree    #
+				#####################################################################
+					if len(self.ignore) > 0:
+						if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
+							self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+						if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
+							self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
+					else:
+						if (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
+							self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+						if (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
+							self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
+		    #####################################################################
+		    #   		  Checks for empty folders in the directory             #
+		    #####################################################################
+		    for directory in dirs:
+				#If the directory is not in the ignore file and it is empty, delete it
+				if root + "\\" + directory not in ignore_paths and os.listdir(root+"\\"+directory)==[]:
+					self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )	
+
 	#Goes through the files after they've been selected for deleting 
 	def delete_checked(self,log=True):
 		if len(self.deleteFiles): 
@@ -61,7 +65,7 @@ class Files():
 					logVals.add(file_name)
 					send2trash(file_name[0])
 			#Close the file 
-			if log == True and len(myLog) > 0:
+			if log == True and len(logVals) > 0:
 				myLog = logging(logVals)
 				myLog.log()
 
@@ -84,7 +88,7 @@ class Files():
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)) and (not (( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False) in self.deleteFiles)):
-				log_file.add(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
+				log_file.append(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
 				send2trash(root)
 
 	#Early stage function designed to recommend a directory that the file should be used should the user prompt not to delete it 
@@ -108,5 +112,5 @@ class Files():
 			if name.endswith(ext):
 				return "video"	
 		return "unknown"
-	
+
 	#def move_file(file_name, destination)

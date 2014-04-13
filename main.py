@@ -5,7 +5,7 @@ import time
 num = 6
 months = 1
 days = 31
-length = num*years*months*days*3600
+length = num*months*days*3600
 
 option = 2
 size = 1
@@ -20,9 +20,9 @@ emptyFolders = []
 for root, dirs, files in os.walk(path):
     for name in files:
     #####################################################################
-    #
-    #    Checks for older and large files in a given directory tree
-    #
+    #                                                                   #
+    #    Checks for older and large files in a given directory tree     #
+    #                                                                   #
     #####################################################################    
         if time.time() - length > os.path.getatime(root + "\\" + name):
             #print name + "\t" , time.ctime(os.path.getmtime(root + "\\" + name))
@@ -30,9 +30,9 @@ for root, dirs, files in os.walk(path):
         if os.path.getsize(root+"\\"+name)/largest > 0:
             largeFiles.append((root+"\\"+name,name, os.path.getsize(root+"\\"+name),True))
     #####################################################################
-    #
-    #    Checks for empty folders in the directory
-    #
+    #                                                                   #
+    #    Checks for empty folders in the directory                      #
+    #                                                                   #
     #####################################################################
     for directory in dirs:
         if os.listdir(root+"\\"+directory)==[]:

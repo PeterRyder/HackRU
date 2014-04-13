@@ -106,7 +106,7 @@ class Application(Frame):
                                       textvariable = self.size_select,
                                       state="readonly"
                                       )
-        self.size_ext1["values"] = ("Bytes", "Kbs", "Mbs", "Gbs", "Tbs")
+        self.size_ext1["values"] = ("Bytes", "KBs", "MBs", "GBs", "TBs")
         self.size_ext1.current(0)
         self.size_ext1.grid(row=3,column=2,stick=W)
         
@@ -219,8 +219,8 @@ class Application(Frame):
     
         self.top.vsb = Scrollbar(self.top, orient="vertical")
         self.top.text = Text(self.top, width=40, height=20, 
-                            yscrollcommand=self.top.vsb.set,bg="white")
-        self.top.vsb.config(command=self.top.text.yview,bg="white",state="disabled")
+                            yscrollcommand=self.top.vsb.set,bg="white", state="disabled")
+        self.top.vsb.config(command=self.top.text.yview,bg="white")
         self.top.vsb.pack(side="right", fill="y")
         self.top.text.pack(side="left", fill="both", expand=True)
         
@@ -322,7 +322,7 @@ if __name__ == '__main__':
     
     app = Application(master=Root)
     app.mainloop()
-    try:
-        Root.destroy()
-    except:
-        a=1
+    #try:
+    app.quit()
+    #except:
+        #a=1

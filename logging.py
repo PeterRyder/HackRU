@@ -26,18 +26,4 @@ class logging():
 			ign.write(i + "\n")
 		ign.close()
 
-	#Check for if the directories of files in the ignore list still exist
-	def ignore_path_check(self):
-		ignore_list = []
-		ignore_path = os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\ignore.txt")
-		if os.path.exists(ignore_path):
-			file = open(ignore_path)
-			lines = file.readlines()
-			file.close()
-			file = open(ignore_path, "w")
-			for line in lines:
-				if os.path.exists(line):
-					file.write(line)
-					ignore_list.append(line)
-			file.close()
-		return ignore_list
+

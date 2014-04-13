@@ -24,7 +24,7 @@ class Files():
 	#Find all files and directories that can be deleted and add them to the set deleteFiles 
 	def traverse(self):
 		#Declare list of files and directories to ignore and removes ignore directories that no longer exist
-		ignore_paths = ignore_path_check()
+		ignore_paths = self.ignore_path_check()
 		#For each file and empty directory add it to a delete list
 		for root, dirs, files in os.walk(self.path):
 		    for name in files:
@@ -114,3 +114,19 @@ class Files():
 		return "unknown"
 
 	#def move_file(file_name, destination)
+	
+	#Check for if the directories of files in the ignore list still exist
+	def ignore_path_check(self):
+		ignore_list = []
+		ignore_path = os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\ignore.txt")
+		if os.path.exists(ignore_path):
+			file = open(ignore_path)
+			lines = file.readlines()
+			file.close()
+			file = open(ignore_path, "w")
+			for line in lines:
+				if os.path.exists(line):
+					file.write(line)
+					ignore_list.append(line)
+			file.close()
+		return ignore_list

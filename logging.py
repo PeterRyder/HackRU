@@ -8,16 +8,16 @@ class logging():
 		self.files = files
 
 	def log(self):
-		if not os.path.exists(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs"):
-    		os.makedirs(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs")
+		if not os.path.exists(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs")):
+		        os.makedirs(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs"))
 		log = open(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen\\Logs\\ReinigenLog " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
 		for i in self.files:
 			log.write(self.files[1] + " deleted from directory " + self.files[0] + "\n")
 		log.close()
 
 	def ignore(self):
-		if not os.path.exists(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen"):
-    		os.makedirs(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen")
+		if not os.path.exists(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen")):
+			os.makedirs(os.path.join(os.path.expanduser("~") , "AppData\\Roaming\\Reinigen"))
 		ign = open(os.path.join(os.path.expanduser("~") , "\\AppData\\Roaming\\Reinigen\\ignore.txt"), "a")
 		for i in self.files:
 			ign.write(self.files + " , ")

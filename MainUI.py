@@ -172,9 +172,7 @@ class Application(Frame):
         if (self.log_option.get() == 1):
             log = True
         self.inputData.delete_checked(log)
-                
-        #for i in self.inputData.deleteFiles:
-            #print 
+
             
         print(self.show_log_folder.get())
         if (self.show_log_folder.get() == 1):

@@ -4,6 +4,7 @@ import time
 from send2trash import send2trash
 import shutil
 
+'''
 num = 6
 months = 1
 days = 31
@@ -47,13 +48,15 @@ for root, dirs, files in os.walk(path):
     #print i
 for i in emptyFolders:
     print i	
-
-if len(delete_files): 
-    #print del_folder  #debug
-    #Creates a log file to write the deleted files and directories to
-    log = open(os.path.join(path, "Reinigen Log.txt"), "w")
-    for file_name in delete_files:
-	#log.write(raw_input(file_name[1]))
-        send2trash(file_name[0])
-    log.close()
-
+'''
+a = datetime.now()
+b = a.year
+c = a.month
+d = str(a)
+a = 
+print a 
+'''
+log = open("C:/users/gallia/dropbox/HackRU/Reinigen Log " + a+ ".txt", "w")
+file_name = ("lol", "hi")
+log.write(file_name[1] + "deleted from directory" + file_name[0])
+log.close()'''

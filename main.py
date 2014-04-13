@@ -2,21 +2,29 @@ import os
 import os.path
 import time
 
-sixMonths = 15778463
-largest = 1024**2
+num = 6
+months = 1
+days = 31
+length = num*years*months*days*3600
+
+option = 2
+size = 1
+largest = size*(1024**option)
+
+path = "C:\Users\loweyj\desktop"
 
 oldFiles = []
 largeFiles = []
 emptyFolders = []
 
-for root, dirs, files in os.walk("C:\Users\loweyj\desktop"):
+for root, dirs, files in os.walk(path):
     for name in files:
     #####################################################################
     #
     #    Checks for older and large files in a given directory tree
     #
     #####################################################################    
-        if time.time() - sixMonths > os.path.getatime(root + "\\" + name):
+        if time.time() - length > os.path.getatime(root + "\\" + name):
             #print name + "\t" , time.ctime(os.path.getmtime(root + "\\" + name))
             oldFiles.append((root+"\\"+name,name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
         if os.path.getsize(root+"\\"+name)/largest > 0:

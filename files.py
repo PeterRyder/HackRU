@@ -53,6 +53,7 @@ class Files():
 	def printIt(self):
 		for i in self.deleteFiles:
 			print i
+<<<<<<< 23f3fed6c4e3f4ddda24cbb4442317fe2d0aad71
 
 	def checkEmpty(self):
 		for root, dirs, files in os.walk(self.path):
@@ -64,3 +65,27 @@ class Files():
 			        count += 1            
 			if count == len(os.listdir(root+"\\"+directory)):
 				send2trash(root+"\\"+directory)
+=======
+			
+	
+	def suggest_move(name):
+		documents_ext = [".doc", ".docx", ".log", ".msg", ".odt", ".pages", ".rtf", ".tex", ".txt", ".wpd", ".wps", ".ppt", ".pptx", ".pps", ".xlr", ".xls", ".xlsx", ".pdf"]		
+		musics_ext = [".aif", ".iff", ".m3u", ".m4a", ".mid", ".mp3", ".mpa", ".ra", ".wav", ".wma"]
+		pictures_ext = [".bmp", ".dds", ".gif", ".jpg", ".png", ".psd", ".pspimage", ".tga", ".thm", ".tif", ".tiff", ".yuv"]
+		videos_ext = [".3g2", ".3gp", ".asf", ".asx", ".avi", ".flv", ".m4v", ".mov", ".mp4", ".mpg", ".rm", ".srt", ".swf", ".vob", ".wmv"]
+		for ext in documents_ext:
+			if name.endswith(ext):
+				return "document"
+		for ext in musics_ext: 
+			if name.endswith(ext):
+				return "music"
+		for ext in pictures_ext:
+			if name.endswith(ext):
+				return "picture"
+		for ext in videos_ext:
+			if name.endswith(ext):
+				return "video"	
+		return "unknown"
+	
+	#def move_file(file_name, destination)
+>>>>>>> 432e7c7609aaa86f075d622ee93073742ff6006a

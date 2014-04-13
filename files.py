@@ -1,4 +1,4 @@
-class Files(self):
+class Files():
 
 	def __init__(self,p="C:",n=1,m=1,d=1,s=1,o=1,ig=set([])):
 		self.path = p
@@ -7,12 +7,14 @@ class Files(self):
 		self.days = d
 		self.size = s
 		self.option = o
+		length = num*months*days*3600
+		largest = size*(1024**option)
 		self.ignore = ig
 		self.deleteFiles = set([])
 		
 
 	def traverse(self):
-		for root, dirs, files in os.walk(path):
+		for root, dirs, files in os.walk(self.path):
 		    for name in files:
 		    #####################################################################
 		    #                                                                   #
@@ -20,9 +22,9 @@ class Files(self):
 		    #                                                                   #
 		    #####################################################################    
 		        if time.time() - length > os.path.getmtime(root + "\\" + name):
-		            deleteFiles.add((root+"\\"+name,name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
 		        if os.path.getsize(root+"\\"+name)/largest > 0:
-		            deleteFiles.add((root+"\\"+name,name, os.path.getsize(root+"\\"+name),True))
+		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #                                                                   #
 		    #    Checks for empty folders in the directory                      #
@@ -30,4 +32,8 @@ class Files(self):
 		    #####################################################################
 		    for directory in dirs:
 		        if os.listdir(root+"\\"+directory)==[]:
-		            deleteFiles.add( ( root+"\\"+directory, directory , True) )
+		            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
+
+	def printIt(self):
+		for i in self.deleteFiles:
+			print i

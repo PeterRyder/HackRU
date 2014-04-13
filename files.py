@@ -39,11 +39,11 @@ class Files():
 		            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
 	
 	def delete_checked(self):
-		if len(self.deletefiles): 
+		if len(self.deleteFiles): 
 			#print del_folder  #debug
 			#Creates a log file to write the deleted files and directories to
 			log = open(os.path.join(path, "Reinigen Log " + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".txt"), "w")
-			for file_name in self.deletefiles:
+			for file_name in self.deleteFiles:
 				log.write(file_name[1] + "deleted from directory" + file_name[0])
 				send2trash(file_name[0])
 			log.close()

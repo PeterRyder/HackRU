@@ -1,3 +1,7 @@
+import os
+import os.path
+import time
+
 class Files():
 
 	def __init__(self,p="C:",n=1,m=1,d=1,s=1,o=1,ig=set([])):
@@ -7,8 +11,8 @@ class Files():
 		self.days = d
 		self.size = s
 		self.option = o
-		length = num*months*days*3600
-		largest = size*(1024**option)
+		self.length = self.num*self.months*self.days*3600
+		self.largest = self.size*(1024**self.option)
 		self.ignore = ig
 		self.deleteFiles = set([])
 		
@@ -21,9 +25,9 @@ class Files():
 		    #    Checks for older and large files in a given directory tree     #
 		    #                                                                   #
 		    #####################################################################    
-		        if time.time() - length > os.path.getmtime(root + "\\" + name):
+		        if time.time() - self.length > os.path.getmtime(root + "\\" + name):
 		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-		        if os.path.getsize(root+"\\"+name)/largest > 0:
+		        if os.path.getsize(root+"\\"+name)/self.largest > 0:
 		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #                                                                   #

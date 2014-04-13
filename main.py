@@ -49,12 +49,16 @@ for root, dirs, files in os.walk(path):
 for i in emptyFolders:
     print i	
 '''
-a = datetime.now()
+"""a = datetime.now()
 b = a.year
 c = a.month
 d = str(a)
 a = 
-print a 
+print a """
+
+for root, dirs, files in os.walk(path, False):
+    print root, dirs, files
+
 '''
 log = open("C:/users/gallia/dropbox/HackRU/Reinigen Log " + a+ ".txt", "w")
 file_name = ("lol", "hi")

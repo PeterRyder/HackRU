@@ -55,19 +55,19 @@ class Files():
 
 
 	def checkEmpty(self):
-		for root, dirs, files in os.walk(self.path):
+		for root, dirs, files in os.walk(self.path,False):
 			count = 0
-			for directory in dirs:
+			for name in files:
 				if (root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True) in self.deletefiles:
 					count+=1;
 				if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deletefiles:
 					count += 1            
-				if count == len(os.listdir(root+"\\"+directory)):
-					send2trash(root+"\\"+directory)
+			if count == len(os.listdir(root)):
+				send2trash(root)
 		
 	def suggest_move(name):
 		documents_ext = [".doc", ".docx", ".log", ".msg", ".odt", ".pages", ".rtf", ".tex", ".txt", ".wpd", ".wps", ".ppt", ".pptx", ".pps", ".xlr", ".xls", ".xlsx", ".pdf"]		
-		musics_ext = [".aif", ".iff", ".m3u", ".m4a", ".mid", ".mp3", ".mpa", ".ra", ".wav", ".wma"]
+		musics_ext = [".aif", ".iff", ".m3u", ".m4a", ".mid", ".mp3", ".mpa", ".ra", ".wav", ".wma", ".flac"]
 		pictures_ext = [".bmp", ".dds", ".gif", ".jpg", ".png", ".psd", ".pspimage", ".tga", ".thm", ".tif", ".tiff", ".yuv"]
 		videos_ext = [".3g2", ".3gp", ".asf", ".asx", ".avi", ".flv", ".m4v", ".mov", ".mp4", ".mpg", ".rm", ".srt", ".swf", ".vob", ".wmv"]
 		for ext in documents_ext:

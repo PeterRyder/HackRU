@@ -1,4 +1,5 @@
 Reinigen 
+
 The Folder Cleaning Software!
 
 Reinigen (rine-nee-gen), which translates to clean in German, is an application designed to assist you in deleting your folders and files that you don't use very often or that take up too much space. Often times, we let our download folders get out of hand and they become so big that we don't want to try cleaning them out. Reinigen was designed exactly for this purpose; with a friendly user interface, Reinigen walks you through your files and asks you which you would like to delete, and does it for you!

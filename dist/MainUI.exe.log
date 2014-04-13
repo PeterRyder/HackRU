@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "MainUI.py", line 324, in <module>
-  File "Tkinter.pyc", line 1728, in destroy
-_tkinter.TclError: can't invoke "destroy" command:  application has been destroyed

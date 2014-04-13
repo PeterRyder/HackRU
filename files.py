@@ -61,9 +61,11 @@ class Files():
 			for file_name in self.deleteFiles:
 				#If the file is listed for deletion (4th value of tuple is True)
 				if file_name[3] == True:
-					#Write the file to the log file and delete it
-					logVals.add(file_name)
-					send2trash(file_name[0])
+					
+					if os.path.isfile(file_name[0]):
+						#Write the file to the log file and delete it
+						logVals.append(file_name)
+						send2trash(file_name[0])
 			#Close the file 
 			if log == True and len(logVals) > 0:
 				myLog = logging(logVals)
@@ -89,6 +91,8 @@ class Files():
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)) and (not (( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False) in self.deleteFiles)):
 				log_file.append(( root, root.split('\\')[-1], "THIS FOLDER IS EMPTY!" , False))
+				for i in files:
+					log_file.append(( root, root+"\\"+i, "herro" , False))
 				send2trash(root)
 
 	#Early stage function designed to recommend a directory that the file should be used should the user prompt not to delete it 

@@ -33,6 +33,17 @@ class Files():
 		    for directory in dirs:
 		        if os.listdir(root+"\\"+directory)==[]:
 		            self.deleteFiles.add( ( root+"\\"+directory, directory, "THIS FOLDER IS EMPTY!" , True) )
+	
+	def delete_checked(self):
+		if len(deletefiles): 
+			#print del_folder  #debug
+			#Creates a log file to write the deleted files and directories to
+			log = open(os.path.join(path, "Reinigen Log.txt"), "w")
+			for file_name in deletefiles:
+				#log.write(raw_input(file_name[1]))
+				send2trash(file_name[0])
+			log.close()
+		#possibly call traverse again to check for now empty directories and then call delete_checked again
 
 	def printIt(self):
 		for i in self.deleteFiles:

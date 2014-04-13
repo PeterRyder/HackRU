@@ -28,9 +28,9 @@ class Files():
 		    #####################################################################
 		    #     Checks for older and large files in a given directory tree    #
 		    #####################################################################    
-		        if self.length > 0 && time.time() - self.length > os.path.getmtime(root + "\\" + name):
+		        if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
 		            self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
-		        if self.largest > 0 && os.path.getsize(root+"\\"+name)/self.largest > 0:
+		        if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
 		            self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 		    #####################################################################
 		    #   		  Checks for empty folders in the directory             #
@@ -68,9 +68,9 @@ class Files():
 			count = 0
 			#If a file is set to be deleted, increment count
 			for name in files:
-				if (root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True) in self.deletefiles:
+				if (root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True) in self.deleteFiles:
 					count+=1;
-				if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deletefiles:
+				if (root+"\\"+name, name, os.path.getsize(root+"\\"+name),True) in self.deleteFiles:
 					count += 1            
 			#If all of the files of a directory are set to be deleted, delete the directory instead
 			if count == len(os.listdir(root)):

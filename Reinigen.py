@@ -219,7 +219,7 @@ class Application(Frame):
     
         self.top.vsb = Scrollbar(self.top, orient="vertical")
         self.top.text = Text(self.top, width=40, height=20, 
-                            yscrollcommand=self.top.vsb.set,bg="white", state="disabled")
+                            yscrollcommand=self.top.vsb.set,bg="white")
         self.top.vsb.config(command=self.top.text.yview,bg="white")
         self.top.vsb.pack(side="right", fill="y")
         self.top.text.pack(side="left", fill="both", expand=True)

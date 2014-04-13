@@ -321,4 +321,7 @@ if __name__ == '__main__':
     
     app = Application(master=Root)
     app.mainloop()
-    Root.destroy()
+    try:
+        Root.destroy()
+    except:
+        a=1

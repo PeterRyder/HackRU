@@ -235,21 +235,24 @@ class Application(Frame):
         elif (self.time_select.get() == "Years"):
             day_amount = 365
         
+        size_multiplier = 0
         if (self.size_ext1.get() == "Bytes"):
             size_multiplier = 0
-        if (self.size_ext1.get() == "Kbs"):
+        if (self.size_ext1.get() == "KBs"):
             size_multiplier = 1
-        elif (self.size_ext1.get() == "Mbs"):
+        elif (self.size_ext1.get() == "MBs"):
             size_multiplier = 2
-        elif (self.size_ext1.get() == "Gbs"):
+        elif (self.size_ext1.get() == "GBs"):
             size_multiplier = 3
-        elif (self.size_ext1.get() == "Tbs"):
+        elif (self.size_ext1.get() == "TBs"):
             size_multiplier = 4
         
         temp_string = []
         if self.ignore_list.get() != '':
+            temp_string = str(self.ignore_list).strip(" ")
             temp_string = self.ignore_list.get().split(',')
-            temp_string = temp_string.strip(" ")
+            
+            print temp_string
         
         
         #print "Folder name: " + foldername
@@ -316,7 +319,7 @@ if __name__ == '__main__':
     
     Root = Tk()
     Root.geometry("300x123")
-    Root.title("HackRU - EZ Cleaner")
+    Root.title("HackRU - Reinigen")
     #Root.resizable(width=FALSE, height=FALSE)
     Root.config(bg="white")
     

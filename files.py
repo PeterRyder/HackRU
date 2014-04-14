@@ -36,6 +36,7 @@ class Files():
 					if len(self.ignore) > 0:
 						if (not name.endswith(self.ignore)) and (self.length > 0) and (time.time() - self.length > os.path.getmtime(root + "\\" + name)):
 							self.deleteFiles.add((root+"\\"+name, name, time.ctime(os.path.getmtime(root + "\\" + name)), True))
+							#print time.time() - self.length
 						if (not name.endswith(self.ignore)) and (self.largest > 0) and (os.path.getsize(root+"\\"+name)/self.largest > 0):
 							self.deleteFiles.add((root+"\\"+name, name, os.path.getsize(root+"\\"+name),True))
 					else:
@@ -129,8 +130,9 @@ class Files():
 			file.close()
 			file = open(ignore_path, "w")
 			for line in lines:
+				line = line.strip("\n")
 				if os.path.exists(line):
-					file.write(line)
+					file.write(line+"\n")
 					ignore_list.append(line)
 			file.close()
 		return ignore_list

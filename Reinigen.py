@@ -327,5 +327,6 @@ if __name__ == '__main__':
     app.mainloop()
     #try:
     app.quit()
+    Root.destroy()
     #except:
         #a=1

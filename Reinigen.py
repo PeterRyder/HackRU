@@ -195,7 +195,7 @@ class Application(Frame):
             path = os.path.expanduser("~")
             path = path + "\\AppData\\Roaming\\Reinigen\\Logs"
             #print path
-            os.system('explorer ' + path) 
+            os.system('explorer ' + path)
         
         self.top.destroy()
         

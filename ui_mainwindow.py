@@ -181,7 +181,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("Reinigen", "Reinigen", None))
         self.timeFrame.setItemText(0, _translate("MainWindow", "Days", None))
         self.timeFrame.setItemText(1, _translate("MainWindow", "Months", None))
         self.timeFrame.setItemText(2, _translate("MainWindow", "Years", None))

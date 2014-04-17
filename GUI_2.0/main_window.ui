@@ -126,7 +126,7 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="5">
+    <item row="11" column="5">
      <widget class="QPushButton" name="cancel">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -139,7 +139,7 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="4">
+    <item row="11" column="4">
      <widget class="QPushButton" name="commit">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -210,7 +210,7 @@
          <x>0</x>
          <y>0</y>
          <width>383</width>
-         <height>291</height>
+         <height>314</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout"/>
@@ -250,26 +250,6 @@
       <property name="text">
        <string>Show Log</string>
       </property>
-     </widget>
-    </item>
-    <item row="10" column="0">
-     <widget class="QRadioButton" name="radioButton">
-      <property name="text">
-       <string>RadioButton</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">radioButtons</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="11" column="0">
-     <widget class="QRadioButton" name="radioButton_2">
-      <property name="text">
-       <string>RadioButton</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">radioButtons</string>
-      </attribute>
      </widget>
     </item>
    </layout>
@@ -355,8 +335,69 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>selectAllRemove</sender>
+   <signal>clicked()</signal>
+   <receiver>selectAllRemove</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>470</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>470</x>
+     <y>41</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deselectAllRemove</sender>
+   <signal>clicked()</signal>
+   <receiver>deselectAllRemove</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>470</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>470</x>
+     <y>70</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deselectAllIgnore</sender>
+   <signal>clicked()</signal>
+   <receiver>deselectAllIgnore</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>731</x>
+     <y>70</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>selectAllIgnore</sender>
+   <signal>clicked()</signal>
+   <receiver>selectAllIgnore</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>731</x>
+     <y>41</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
- <buttongroups>
-  <buttongroup name="radioButtons"/>
- </buttongroups>
 </ui>

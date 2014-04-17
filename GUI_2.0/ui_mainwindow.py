@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Mon Apr 14 21:44:36 2014
+# Created: Thu Apr 17 12:32:10 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,6 +26,7 @@ except AttributeError:
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.folderWasChosen = False
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(803, 462)
         self.centralwidget = QtGui.QWidget(MainWindow)
@@ -91,7 +92,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.cancel.sizePolicy().hasHeightForWidth())
         self.cancel.setSizePolicy(sizePolicy)
         self.cancel.setObjectName(_fromUtf8("cancel"))
-        self.gridLayout_2.addWidget(self.cancel, 10, 5, 1, 1)
+        self.gridLayout_2.addWidget(self.cancel, 11, 5, 1, 1)
         self.commit = QtGui.QPushButton(self.centralwidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -99,7 +100,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.commit.sizePolicy().hasHeightForWidth())
         self.commit.setSizePolicy(sizePolicy)
         self.commit.setObjectName(_fromUtf8("commit"))
-        self.gridLayout_2.addWidget(self.commit, 10, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.commit, 11, 4, 1, 1)
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.gridLayout_2.addWidget(self.label_2, 1, 1, 1, 1)
@@ -134,7 +135,7 @@ class Ui_MainWindow(object):
         self.gridLayout = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout_2.addWidget(self.scrollArea, 2, 3, 8, 3)
+        self.gridLayout_2.addWidget(self.scrollArea, 2, 3, 9, 3)
         self.selectAllRemove = QtGui.QPushButton(self.centralwidget)
         self.selectAllRemove.setObjectName(_fromUtf8("selectAllRemove"))
         self.gridLayout_2.addWidget(self.selectAllRemove, 0, 3, 1, 1)
@@ -146,10 +147,10 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.label_7, 5, 1, 1, 1)
         self.log = QtGui.QCheckBox(self.centralwidget)
         self.log.setObjectName(_fromUtf8("log"))
-        self.gridLayout_2.addWidget(self.log, 7, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.log, 8, 0, 1, 1)
         self.showLog = QtGui.QCheckBox(self.centralwidget)
         self.showLog.setObjectName(_fromUtf8("showLog"))
-        self.gridLayout_2.addWidget(self.showLog, 6, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.showLog, 7, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 803, 21))
@@ -171,8 +172,12 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.chooseFolder, QtCore.SIGNAL(_fromUtf8("clicked()")), self.update)
-        QtCore.QObject.connect(self.commit, QtCore.SIGNAL(_fromUtf8("clicked()")), self.commitIt)
+        QtCore.QObject.connect(self.commit, QtCore.SIGNAL(_fromUtf8("clicked()")), self.commitFunc)
         QtCore.QObject.connect(self.cancel, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.close)
+        QtCore.QObject.connect(self.selectAllRemove, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectAllRemoveFunc)
+        QtCore.QObject.connect(self.deselectAllRemove, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllRemoveFunc)
+        QtCore.QObject.connect(self.deselectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllIgnoreFunc)
+        QtCore.QObject.connect(self.selectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectAllIgnoreFunc)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -206,8 +211,11 @@ class Ui_MainWindow(object):
         self.actionChoose_Folder.setText(_translate("MainWindow", "Choose Folder", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
 
-
     def update(self):
+        self.folderWasChosen = True
+        
+        for i in reversed(range(self.gridLayout.count())):
+            self.gridLayout.itemAt(i).widget().setParent(None)
         
         folder_path = str(QtGui.QFileDialog.getExistingDirectory())
         
@@ -266,21 +274,21 @@ class Ui_MainWindow(object):
             removeButton.setText(_translate("MainWindow", "Remove", None))
             radioButtons.setObjectName(_fromUtf8("radioButtons"))
             
-            self.gridLayout.addWidget(removeButton, i, 0, 1, 1)
+            self.gridLayout.addWidget(removeButton, i, 1, 1, 1)
             
             addToBlacklist = QtGui.QRadioButton(self.scrollAreaWidgetContents)
             addToBlacklist.setObjectName(_fromUtf8("addToBlacklist"))
             addToBlacklist.setText(_translate("MainWindow", "Add to Blacklist", None))
             radioButtons.setObjectName(_fromUtf8("radioButtons"))
             
-            self.gridLayout.addWidget(addToBlacklist, i, 1, 1, 1)            
+            self.gridLayout.addWidget(addToBlacklist, i, 2, 1, 1)            
             
             
             ignoreButton = QtGui.QRadioButton(self.scrollAreaWidgetContents)
             ignoreButton.setObjectName(_fromUtf8("ignoreButton"))            
             ignoreButton.setText(_translate("MainWindow", "Ignore", None))            
             
-            self.gridLayout.addWidget(ignoreButton, i, 2, 1, 1)
+            self.gridLayout.addWidget(ignoreButton, i, 3, 1, 1)
 
             radioButtons.addButton(ignoreButton)
             radioButtons.addButton(removeButton)
@@ -288,14 +296,14 @@ class Ui_MainWindow(object):
                         
             label_6 = QtGui.QLabel(self.scrollAreaWidgetContents)
             label_6.setObjectName(_fromUtf8("label_6"))
-            self.gridLayout.addWidget(label_6, i, 3, 1, 1) 
+            self.gridLayout.addWidget(label_6, i, 0, 1, 1) 
             label_6.setText(_translate("MainWindow", item[1], None))
             
             self.radioGroup.append(radioButtons)
         
             i = i+1
             
-    def commitIt(self):
+    def commitFunc(self):
         #print "test"
         
         entireStructure = []
@@ -304,17 +312,12 @@ class Ui_MainWindow(object):
         count = 0
         for button in self.radioGroup:
             buttonPressed = button.checkedButton()
-            if buttonPressed.getText() == "Remove":
-                print "removing"
-
-            
-            #item = list(entireStructure[count])
-            
-            #item[3] = False
-            #print item[1] + " will be removed"
-
-            #item = tuple(item)
-            #entireStructure[count] = item                
+            if buttonPressed.text() == "Remove":
+                item = list(entireStructure[count])
+                item[3] = False
+                print item[1] + " will be removed"
+                item = tuple(item)
+                entireStructure[count] = item                
         
             count = count + 1
     
@@ -328,10 +331,51 @@ class Ui_MainWindow(object):
             print "Saving log"
         #self.inputData.delete_checked(log)   
         
-        #print(self.show_log_folder.get())
         if (self.showLog.isChecked() == True):
             #print("test")
             path = os.path.expanduser("~")
             path = path + "\\AppData\\Roaming\\Reinigen\\Logs"
             #print path
             os.system('explorer ' + path)
+            
+    def selectAllRemoveFunc(self):
+        #print "Select all remove"
+        for radioButtons in self.radioGroup:
+            buttons = []
+            buttons = radioButtons.buttons()
+            for button in buttons:
+                if button.text() == "Remove":
+                    button.click()
+        
+    def deselectAllRemoveFunc(self):
+        for radioButtons in self.radioGroup:
+            buttons = []
+            buttons = radioButtons.buttons()
+            for button in buttons:
+                if button.text() == "Remove":
+                    if button.isChecked():
+                        radioButtons.setExclusive(False)
+                        button.setChecked(False)
+                        radioButtons.setExclusive(True)
+        
+    def selectAllIgnoreFunc(self):
+        for radioButtons in self.radioGroup:
+            buttons = []
+            buttons = radioButtons.buttons()
+            for button in buttons:
+                if button.text() == "Ignore":
+                    button.click()
+        
+    def deselectAllIgnoreFunc(self):
+        for radioButtons in self.radioGroup:
+            buttons = []
+            buttons = radioButtons.buttons()
+            for button in buttons:
+                if button.text() == "Ignore":
+                    if button.isChecked():
+                        radioButtons.setExclusive(False)
+                        button.setChecked(False)
+                        radioButtons.setExclusive(True)
+        
+    
+

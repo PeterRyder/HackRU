@@ -2,12 +2,13 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Mon Apr 14 21:59:48 2014
+# Created: Wed Apr 16 20:11:36 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+from files import *
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -90,7 +91,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.cancel.sizePolicy().hasHeightForWidth())
         self.cancel.setSizePolicy(sizePolicy)
         self.cancel.setObjectName(_fromUtf8("cancel"))
-        self.gridLayout_2.addWidget(self.cancel, 12, 5, 1, 1)
+        self.gridLayout_2.addWidget(self.cancel, 11, 5, 1, 1)
         self.commit = QtGui.QPushButton(self.centralwidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -98,7 +99,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.commit.sizePolicy().hasHeightForWidth())
         self.commit.setSizePolicy(sizePolicy)
         self.commit.setObjectName(_fromUtf8("commit"))
-        self.gridLayout_2.addWidget(self.commit, 12, 4, 1, 1)
+        self.gridLayout_2.addWidget(self.commit, 11, 4, 1, 1)
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.gridLayout_2.addWidget(self.label_2, 1, 1, 1, 1)
@@ -128,7 +129,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 383, 291))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 383, 314))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.gridLayout = QtGui.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
@@ -169,10 +170,17 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.chooseFolder, QtCore.SIGNAL(_fromUtf8("clicked()")), self.chooseFolder.update)
+        QtCore.QObject.connect(self.chooseFolder, QtCore.SIGNAL(_fromUtf8("clicked()")), self.update)
         QtCore.QObject.connect(self.commit, QtCore.SIGNAL(_fromUtf8("clicked()")), self.commit.update)
         QtCore.QObject.connect(self.cancel, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.close)
+        QtCore.QObject.connect(self.selectAllRemove, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectAllRemove.update)
+        QtCore.QObject.connect(self.deselectAllRemove, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllRemove.update)
+        QtCore.QObject.connect(self.deselectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllIgnore.update)
+        QtCore.QObject.connect(self.selectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.update1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+    def update1(self):
+        print "hi jenny"
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
@@ -201,8 +209,136 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "Config Options", None))
         self.log.setText(_translate("MainWindow", "Log", None))
         self.showLog.setText(_translate("MainWindow", "Show Log", None))
-        self.radioButton_2.setText(_translate("MainWindow", "RadioButton", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionChoose_Folder.setText(_translate("MainWindow", "Choose Folder", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
+        
+    def update(self):
+        
+        folder_path = str(QtGui.QFileDialog.getExistingDirectory())
+        
+        time_frame = str(self.timeFrame.currentText())
+        file_size_type = str(self.fileSizeType.currentText())
+        file_age = int(self.fileAge.text())
+        file_size = int(self.fileSize.text())
+        ignore_list = str(self.ignoreList.text())
+        
+        #print "Time Frame: " + time_frame
+        #print "File Size Type: " + file_size_type
+        #print "File Age: " + file_age
+        #print "File Size: " + file_size
+        #print "Ignore List: " + ignore_list
+        
+        day_amount = 0
+        if (time_frame == "Days"):
+            day_amount = 1
+        elif (time_frame == "Months"):
+            day_amount = 31
+        elif (time_frame == "Years"):
+            day_amount = 365
+        
+        size_multiplier = 0
+        if (file_size_type == "Bytes"):
+            size_multiplier = 0
+        if (file_size_type == "Kilobytes"):
+            size_multiplier = 1
+        elif (file_size_type == "Megabytes"):
+            size_multiplier = 2
+        elif (file_size_type == "Gigabytes"):
+            size_multiplier = 3
+        elif (file_size_type == "Terabytes"):
+            size_multiplier = 4        
+        
+        temp_string = []
+        if ignore_list != '':
+            temp_string = ignore_list.strip(" ")
+            temp_string = ignore_list.split(',')        
+        
+        self.inputData = Files(folder_path, file_age, day_amount, file_size, size_multiplier, temp_string)
+        
+        self.inputData.traverse()
+        #self.inputData.printIt()
+        
+        i = 1
+        self.radioGroup = []
+        for item in self.inputData.deleteFiles:
+            #print item
+            
+            
+            radioButtons = QtGui.QButtonGroup(self.scrollAreaWidgetContents)
+            
+            removeButton = QtGui.QRadioButton(self.scrollAreaWidgetContents)
+            removeButton.setObjectName(_fromUtf8("removeButton"))
+            removeButton.setText(_translate("MainWindow", "Remove", None))
+            radioButtons.setObjectName(_fromUtf8("radioButtons"))
+            
+            self.gridLayout.addWidget(removeButton, i, 1, 1, 1)
+            
+            addToBlacklist = QtGui.QRadioButton(self.scrollAreaWidgetContents)
+            addToBlacklist.setObjectName(_fromUtf8("addToBlacklist"))
+            addToBlacklist.setText(_translate("MainWindow", "Add to Blacklist", None))
+            radioButtons.setObjectName(_fromUtf8("radioButtons"))
+            
+            self.gridLayout.addWidget(addToBlacklist, i, 2, 1, 1)            
+            
+            
+            ignoreButton = QtGui.QRadioButton(self.scrollAreaWidgetContents)
+            ignoreButton.setObjectName(_fromUtf8("ignoreButton"))            
+            ignoreButton.setText(_translate("MainWindow", "Ignore", None))            
+            
+            self.gridLayout.addWidget(ignoreButton, i, 3, 1, 1)
+
+            radioButtons.addButton(ignoreButton)
+            radioButtons.addButton(removeButton)
+            radioButtons.addButton(addToBlacklist)
+                        
+            label_6 = QtGui.QLabel(self.scrollAreaWidgetContents)
+            label_6.setObjectName(_fromUtf8("label_6"))
+            self.gridLayout.addWidget(label_6, i, 0, 1, 1) 
+            label_6.setText(_translate("MainWindow", item[1], None))
+            
+            self.radioGroup.append(radioButtons)
+        
+            i = i+1
+            
+    def commitIt(self):
+        #print "test"
+        
+        entireStructure = []
+        entireStructure = list(self.inputData.deleteFiles)    
+        
+        count = 0
+        for button in self.radioGroup:
+            buttonPressed = button.checkedButton()
+            if buttonPressed.getText() == "Remove":
+                print "removing"
+
+            
+            #item = list(entireStructure[count])
+            
+            #item[3] = False
+            #print item[1] + " will be removed"
+
+            #item = tuple(item)
+            #entireStructure[count] = item                
+        
+            count = count + 1
+    
+            
+        entireStructure=set(entireStructure)
+        self.inputData.deleteFiles = entireStructure        
+
+        log = False
+        if (self.log.isChecked() == True):
+            log = True
+            print "Saving log"
+        #self.inputData.delete_checked(log)   
+        
+        #print(self.show_log_folder.get())
+        if (self.showLog.isChecked() == True):
+            #print("test")
+            path = os.path.expanduser("~")
+            path = path + "\\AppData\\Roaming\\Reinigen\\Logs"
+            #print path
+            os.system('explorer ' + path)
 

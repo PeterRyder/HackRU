@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "GUI_2.0.py", line 2, in <module>
+  File "PyQt4\QtGui.pyc", line 12, in <module>
+  File "PyQt4\QtGui.pyc", line 10, in __load
+ImportError: No module named sip
+Traceback (most recent call last):
+  File "GUI_2.0.py", line 2, in <module>
+  File "PyQt4\QtGui.pyc", line 12, in <module>
+  File "PyQt4\QtGui.pyc", line 10, in __load
+ImportError: No module named sip

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "ui_mainwindow.py", line 10, in <module>
+  File "PyQt4\QtCore.pyc", line 12, in <module>
+  File "PyQt4\QtCore.pyc", line 10, in __load
+ImportError: No module named sip
+Traceback (most recent call last):
+  File "ui_mainwindow.py", line 10, in <module>
+  File "PyQt4\QtCore.pyc", line 12, in <module>
+  File "PyQt4\QtCore.pyc", line 10, in __load
+ImportError: No module named sip

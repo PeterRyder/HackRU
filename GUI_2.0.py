@@ -1,6 +1,7 @@
 import sys
 from PyQt4.QtGui import QApplication, QDialog, QMainWindow
 from ui_mainwindow import Ui_MainWindow
+from sip import *
 
 def main():
     app = QApplication(sys.argv)

@@ -9,7 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 from files import *
-from sip import *
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8

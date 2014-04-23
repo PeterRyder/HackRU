@@ -178,7 +178,10 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.deselectAllRemove, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllRemoveFunc)
         QtCore.QObject.connect(self.deselectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.deselectAllIgnoreFunc)
         QtCore.QObject.connect(self.selectAllIgnore, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectAllIgnoreFunc)
+        self.log.click()
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        #self.menuFile.menuAction.triggered.connect(QtGui.qApp.quit)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("Reinigen", "Reinigen", None))
@@ -299,8 +302,8 @@ class Ui_MainWindow(object):
             self.gridLayout.addWidget(label_6, i, 0, 1, 1) 
             label_6.setText(_translate("MainWindow", item[1], None))
             
+            ignoreButton.click()
             self.radioGroup.append(radioButtons)
-        
             i = i+1
             
     def commitFunc(self):
@@ -312,12 +315,19 @@ class Ui_MainWindow(object):
         count = 0
         for button in self.radioGroup:
             buttonPressed = button.checkedButton()
-            if buttonPressed.text() == "Remove":
-                item = list(entireStructure[count])
-                item[3] = False
-                print item[1] + " will be removed"
-                item = tuple(item)
-                entireStructure[count] = item                
+            if buttonPressed != None:
+                if buttonPressed.text() == "Ignore":
+                    item = list(entireStructure[count])
+                    item[3] = False
+                    print item[1] + " will be ignored"
+                    item = tuple(item)
+                    entireStructure[count] = item
+                    
+                if buttonPressed.text() == "Add to Blacklist":
+                    item = list(entireStructure[count])
+                    print item[1] + " will be added to the blacklist"
+                    item[3] == False
+                    
         
             count = count + 1
     
@@ -329,7 +339,8 @@ class Ui_MainWindow(object):
         if (self.log.isChecked() == True):
             log = True
             print "Saving log"
-        #self.inputData.delete_checked(log)   
+            
+        self.inputData.delete_checked(log)   
         
         if (self.showLog.isChecked() == True):
             #print("test")
